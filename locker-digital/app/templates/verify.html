@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <div class="h1">Verificación</div>
+
+  <p><strong>Archivo:</strong> {{ evidence.original_filename }}</p>
+
+  <p class="muted">Hash guardado (original):</p>
+  <div class="mono">{{ evidence.sha256 }}</div>
+
+  <p class="muted" style="margin-top:14px;">Hash actual (recalculado):</p>
+  <div class="mono">{{ current_hash }}</div>
+
+  <div style="margin-top:16px;">
+    {% if valid_hash %}
+      <span class="badge ok">Integridad OK (hash coincide)</span>
+    {% else %}
+      <span class="badge bad">Alterado (hash NO coincide)</span>
+    {% endif %}
+  </div>
+
+  <div style="margin-top:12px;">
+    {% if valid_signature %}
+      <span class="badge ok">Firma Ed25519 válida</span>
+    {% else %}
+      <span class="badge bad">Firma Ed25519 inválida</span>
+    {% endif %}
+  </div>
+
+  <div style="margin-top:18px;">
+    <a class="btn" href="/dashboard">Volver</a>
+  </div>
+</div>
+{% endblock %}

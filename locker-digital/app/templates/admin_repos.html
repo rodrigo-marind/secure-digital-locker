@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <div class="h1">Repositorio (todas las evidencias)</div>
+  <p class="muted">Vista global para supervisión (hash, flags, propietario).</p>
+
+  <table class="table">
+    <tr>
+      <th>ID</th>
+      <th>Propietario</th>
+      <th>Archivo</th>
+      <th>SHA-256</th>
+      <th>IA</th>
+      <th>Flags</th>
+      <th>Fecha</th>
+      
+    </tr>
+
+    {% if rows and rows|length > 0 %}
+      {% for e, owner_email in rows %}
+      <tr>
+        <td class="mono">{{ e.id }}</td>
+
+        <td>
+          <strong>{{ owner_email or ("User #" ~ e.owner_id) }}</strong>
+        </td>
+
+        <td><strong>{{ e.original_filename }}</strong></td>
+
+        <td class="mono">{{ e.sha256[:16] }}…</td>
+
+        <td class="mono">{{ '%.2f'|format(e.ai_duplicate_score or 0) }}</td>
+
+        <td class="mono">
+          {% set f = (e.ai_flags or "") %}
+          {% if not f %}
+            Sin alertas
+          {% else %}
+            {% set f = f.replace("DUPLICATE_HASH", "Archivo duplicado") %}
+            {% set f = f.replace("HIGH_SIMILARITY", "Alta similitud") %}
+            {% set f = f.replace("MEDIUM_SIMILARITY", "Similitud media") %}
+            {% set f = f.replace("LARGE_FILE", "Archivo grande") %}
+            {{ f }}
+          {% endif %}
+        </td>
+
+        <td>{{ e.created_at }}</td>
+
+       
+        </td>
+      </tr>
+      {% endfor %}
+    {% else %}
+      <tr>
+        <td colspan="8" class="muted">No hay evidencias todavía (o no se están cargando correctamente).</td>
+      </tr>
+    {% endif %}
+  </table>
+</div>
+{% endblock %}

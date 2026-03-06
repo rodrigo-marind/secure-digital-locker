@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if title %}{{ title }}{% else %}Locker Digital{% endif %}</title>
+
+  
+  <link rel="stylesheet" href="../static/styles.css">
+</head>
+<body>
+
+  <div class="container">
+
+
+    <div class="topbar">
+      <a class="brand" href="{{ url_for('evidence.home') }}">
+        <img class="brand-logo" src="{{ url_for('static', filename='img/logo.png') }}" alt="Locker Digital logo">
+        <span>Locker Digital</span>
+      </a>
+
+      <div class="nav">
+        <div class="nav">
+  {% if current_user.is_authenticated %}
+    <a href="/dashboard">Evidencias</a>
+    <a href="/upload">Subir archivo</a>
+    <a href="/how-it-works">Cómo funciona</a>
+
+    {% if current_user.role == "admin" %}
+      <a href="/admin">Admin</a>
+    {% endif %}
+
+    <a href="/logout">Cerrar sesión</a>
+  {% else %}
+    <a href="/">Inicio</a>
+    <a href="/login">Iniciar sesión</a>
+    <a href="/register">Registrarse</a>
+    <a href="/how-it-works">Cómo funciona</a>
+  {% endif %}
+</div>
+      </div>
+    </div>
+
+    <!-- TOASTS / MENSAJES -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div id="toasts"
+             style="position: fixed; top: 18px; right: 18px; z-index: 9999;
+                    display: flex; flex-direction: column; gap: 10px;">
+          {% for category, msg in messages %}
+            <div class="toast {{ category }}">{{ msg }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <!-- AUTO-CLOSE Ventanas Emergentes -->
+    <script>
+      setTimeout(() => {
+        const el = document.getElementById("toasts");
+        if (!el) return;
+        el.style.opacity = "0";
+        el.style.transition = "opacity 300ms ease";
+        setTimeout(() => el.remove(), 350);
+      }, 3200);
+    </script>
+
+    <!-- CONTENIDO DE LA VENTANA-->
+    {% block content %}{% endblock %}
+
+  </div>
+
+</body>
+</html>

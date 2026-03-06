@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card" style="text-align:center;">
+  <div class="h1">Bienvenido a Locker Digital</div>
+  <p class="muted">
+    Guarda evidencias, genera SHA-256 automáticamente y verifica integridad y autoría con firma Ed25519.
+  </p>
+
+  <ul style="text-align:center; max-width:640px; margin:14px auto; color: var(--muted);">
+  <li><strong>Integridad:</strong> detecta cambios con SHA-256.</li>
+  <li><strong>Autoría:</strong> firma digital Ed25519 por evidencia.</li>
+  <li><strong>Auditoría:</strong> registra acciones clave automáticamente.</li>
+</ul>
+
+  <div style="margin-top:18px; display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
+    <a class="btn" href="{{ url_for('auth.login') }}">Iniciar sesión</a>
+  </div>
+
+  <div style="margin-top:18px;">
+    <p class="muted">¿No tienes cuenta?</p>
+    <a class="btn" href="{{ url_for('auth.register') }}">Registrate</a>
+  </div>
+</div>
+{% endblock %}

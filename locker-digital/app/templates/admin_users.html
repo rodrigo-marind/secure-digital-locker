@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <div class="h1">Usuarios</div>
+  <p class="muted">Gestión y supervisión de usuarios. Podés cambiar el rol desde aquí.</p>
+
+  <table class="table">
+    <tr>
+      <th>ID</th>
+      <th>Email</th>
+      <th>Rol</th>
+      <th>Creado</th>
+      <th>Cambiar rol</th>
+    </tr>
+
+    {% for u in users %}
+    <tr>
+      <td class="mono">{{ u.id }}</td>
+      <td><strong>{{ u.email }}</strong></td>
+      <td>
+        {% if u.role == "admin" %}
+          <span class="badge warn">admin</span>
+        {% else %}
+          <span class="badge ok">student</span>
+        {% endif %}
+      </td>
+      <td>{{ u.created_at }}</td>
+      <td>
+        <form method="POST" action="/admin/users/set-role" style="display:flex; gap:8px; flex-wrap:wrap;">
+          <input type="hidden" name="user_id" value="{{ u.id }}">
+          <select class="input" name="new_role" style="max-width:160px;">
+            <option value="student" {% if u.role=="student" %}selected{% endif %}>student</option>
+            <option value="admin" {% if u.role=="admin" %}selected{% endif %}>admin</option>
+          </select>
+          <button class="btn" type="submit">Actualizar</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}

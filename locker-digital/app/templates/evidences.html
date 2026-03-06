@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="card">
+
+ 
+  <div class="h1">Tus evidencias digitales</div>
+  <p class="muted">
+    Aquí podés ver, verificar y gestionar los archivos que has subido.
+    Cada evidencia cuenta con una huella digital (SHA-256), firma digital y análisis automático.
+  </p>
+
+ 
+  <div style="display:flex; gap:12px; flex-wrap:wrap; margin: 12px 0 18px;">
+    <div class="card" style="flex:1; min-width:220px; box-shadow:none;">
+      <div class="muted">Total de evidencias</div>
+      <div class="h1" style="margin:6px 0 0;">{{ total }}</div>
+    </div>
+
+    <div class="card" style="flex:1; min-width:220px; box-shadow:none;">
+      <div class="muted">Con alertas</div>
+      <div class="h1" style="margin:6px 0 0;">{{ with_alerts }}</div>
+    </div>
+
+    <div class="card" style="flex:1; min-width:220px; box-shadow:none;">
+      <div class="muted">Duplicados detectados</div>
+      <div class="h1" style="margin:6px 0 0;">{{ duplicates }}</div>
+    </div>
+  </div>
+
+  
+  <div style="margin-bottom:14px;">
+    <a class="btn" href="/upload">Subir nuevo archivo</a>
+  </div>
+
+
+  {% if evidences %}
+  <table class="table">
+    <tr>
+      <th>Archivo</th>
+      <th>Detección automática</th>
+      <th>Estado</th>
+      <th>Acciones</th>
+    </tr>
+
+    {% for e in evidences %}
+    <tr>
+
+   
+      <td>
+        <strong>{{ e.original_filename }}</strong><br>
+        <span class="mono muted">{{ e.sha256[:18] }}…</span>
+      </td>
+
+   
+      <td>
+        {% if e.ai_flags %}
+          {% if "DUPLICATE_HASH" in e.ai_flags %}
+            <span class="badge bad">Archivo duplicado</span>
+          {% elif "HIGH_SIMILARITY" in e.ai_flags %}
+            <span class="badge warn">Alta similitud</span>
+          {% else %}
+            <span class="badge warn">Advertencia</span>
+          {% endif %}
+        {% else %}
+          <span class="badge ok">Normal</span>
+        {% endif %}
+      </td>
+
+      
+      <td class="mono">
+        {% set f = (e.ai_flags or "") %}
+        {% if not f %}
+          Sin alertas
+        {% else %}
+          {% set f = f.replace("DUPLICATE_HASH", "Archivo duplicado") %}
+          {% set f = f.replace("HIGH_SIMILARITY", "Alta similitud") %}
+          {% set f = f.replace("MEDIUM_SIMILARITY", "Similitud media") %}
+          {% set f = f.replace("LARGE_FILE", "Archivo grande") %}
+          {{ f }}
+        {% endif %}
+      </td>
+
+      
+      <td>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <a class="btn secondary" href="/verify/{{ e.id }}">Verificar</a>
+          <a class="btn secondary" href="{{ url_for('evidence.view_file', evidence_id=e.id) }}" target="_blank">
+            Ver archivo
+          </a>
+          <form method="POST" action="/delete/{{ e.id }}"
+                onsubmit="return confirm('¿Eliminar esta evidencia? Esta acción quedará registrada.')">
+            <button class="btn" type="submit">Eliminar</button>
+          </form>
+        </div>
+      </td>
+
+    </tr>
+    {% endfor %}
+  </table>
+
+  {% else %}
+    <p class="muted">Todavía no has subido evidencias.</p>
+  {% endif %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <div class="h1">Subir archivo</div>
+
+  <p class="muted">
+    Sube un archivo <strong>PDF</strong>, <strong>DOCX</strong> o <strong>ZIP</strong>.
+    El sistema automáticamente:
+    <br>1. Calcula el <strong>hash SHA-256</strong>
+    <br>2. Firma ese hash con <strong>Ed25519</strong>
+    <br>3. Guarda la evidencia y registra un log de auditoría
+  </p>
+
+  <form class="form" method="POST" enctype="multipart/form-data">
+    <label class="muted">Selecciona tu archivo</label>
+    <input class="input" type="file" name="file" required>
+
+    <button class="btn" type="submit">Subir evidencia</button>
+    <a class="btn" style="background: rgba(255,255,255,.06);" href="/dashboard">Volver</a>
+  </form>
+</div>
+{% endblock %}

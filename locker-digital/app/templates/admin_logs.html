@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="card">
+  <div class="h1">Logs (últimos 300)</div>
+  <p class="muted">Registro de auditoría: acciones relevantes del sistema.</p>
+
+  <div class="table-wrapper">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Actor</th>
+          <th>Acción</th>
+          <th>Target</th>
+          <th>Detalles</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for l in logs %}
+        <tr>
+          <td>{{ l.created_at }}</td>
+          <td class="mono">{{ l.actor_id }}</td>
+          <td><span class="badge">{{ l.action }}</span></td>
+          <td class="mono">
+            {{ l.target_type }}
+            {% if l.target_id %} #{{ l.target_id }}{% endif %}
+          </td>
+          <td class="mono wrap">{{ l.details or "-" }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+
+    </table>
+  </div>
+</div>
+
+{% endblock %}
+       

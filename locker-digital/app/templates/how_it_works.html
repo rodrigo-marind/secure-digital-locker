@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <div class="h1">¿Cómo funciona Locker Digital?</div>
+  <p class="muted">En pocos pasos, así protegemos tus evidencias.</p>
+
+  <div style="display:grid; gap:12px; margin-top:12px;">
+    <div class="card" style="box-shadow:none;">
+      <strong>1.Subís tu archivo</strong>
+      <div class="muted">PDF, DOCX o ZIP. Queda guardado en tu espacio.</div>
+    </div>
+
+    <div class="card" style="box-shadow:none;">
+      <strong>2. Se genera una huella digital (SHA-256)</strong>
+      <div class="muted">Si el archivo cambia, la huella cambia.</div>
+    </div>
+
+    <div class="card" style="box-shadow:none;">
+      <strong>3. Se firma digitalmente (Ed25519)</strong>
+      <div class="muted">Esto respalda la autoría y permite verificar integridad.</div>
+    </div>
+
+    <div class="card" style="box-shadow:none;">
+      <strong>4. Alertas automáticas</strong>
+      <div class="muted">Detecta duplicados y similitud para evitar confusiones.</div>
+    </div>
+
+    <div class="card" style="box-shadow:none;">
+      <strong>5. Verificación cuando querás</strong>
+      <div class="muted">Recalculamos el hash y validamos la firma en un clic.</div>
+    </div>
+  </div>
+
+  <div style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap;">
+    <a class="btn secondary" href="/">Volver</a>
+    {% if current_user.is_authenticated %}
+      <a class="btn" href="/dashboard">Ir a evidencias</a>
+    {% else %}
+      <a class="btn" href="/login">Iniciar sesión</a>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

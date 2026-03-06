@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <div class="h1">Panel de Administrador</div>
+  <p class="muted">Supervisión del sistema: usuarios, evidencias y auditoría.</p>
+
+  <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:14px;">
+    <div class="card" style="flex:1; min-width:220px;">
+      <div class="muted">Usuarios</div>
+      <div class="h1" style="margin:6px 0 0;">{{ total_users }}</div>
+    </div>
+    <div class="card" style="flex:1; min-width:220px;">
+      <div class="muted">Evidencias</div>
+      <div class="h1" style="margin:6px 0 0;">{{ total_evidences }}</div>
+    </div>
+    <div class="card" style="flex:1; min-width:220px;">
+      <div class="muted">Logs</div>
+      <div class="h1" style="margin:6px 0 0;">{{ total_logs }}</div>
+    </div>
+  </div>
+
+  <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:16px;">
+    <a class="btn" href="/admin/logs">Ver logs</a>
+    <a class="btn" href="/admin/users">Ver usuarios</a>
+    <a class="btn" href="/admin/repos">Ver repositorio</a>
+  </div>
+</div>
+{% endblock %}
