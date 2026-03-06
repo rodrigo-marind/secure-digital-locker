@@ -205,3 +205,23 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Project specific folders
+keys/
+uploads/
+instances/
+
+# Local databases
+*.db
+*.sqlite3
+
+# Flask runtime folders
+instance/
+
+# Virtual environments (extra safety)
+venv/
+.venv/
+
+# OS junk
+.DS_Store
+Thumbs.db
