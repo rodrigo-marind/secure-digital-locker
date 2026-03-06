@@ -86,3 +86,7 @@ python app.py
 
 ## Entrar al link desde la terminal, ahi esta la app
 http://127.0.0.1:5000 **
+=======
+# secure-digital-locker
+Secure web application built with Flask for managing digital evidence using cryptographic techniques such as SHA-256 hashing and Ed25519 digital signatures to ensure integrity, authorship and traceability.
+
